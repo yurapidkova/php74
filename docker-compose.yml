@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  nginx:
+    container_name: nginx_php74
+    image: nginx:latest
+    volumes:
+      - ./:/var/www/php74
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php
+    ports:
+      - 80:80
+    networks:
+      - default
+
+  php:
+    container_name: php74
+    build: ./docker/php
+    volumes:
+      - ~/.ssh:/root/.ssh/:ro
+      - ./:/var/www/php74
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1 remote_autostart=1"
+    working_dir: /var/www/php74
+    expose:
+      - 9000
+    networks:
+      - default
