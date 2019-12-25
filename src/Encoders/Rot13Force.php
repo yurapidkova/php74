@@ -4,7 +4,7 @@ namespace App\Encoders;
 
 use App\EncodeInterface;
 
-class Rot13 implements EncodeInterface
+class Rot13Force implements EncodeInterface
 {
 
     private const CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -31,6 +31,20 @@ class Rot13 implements EncodeInterface
      */
     public function encode(string $text): string
     {
+        $charLength = strlen(self::CHARS);
+
+        for ($i = strlen($text) - 1; $i >= 0; $i--) {
+            $pos = strpos(self::CHARS, $text[$i]);
+            if($pos !== false) {
+                $pos += $this->offset;
+
+                if($pos > $charLength) {
+                    $pos -= $charLength;
+                }
+
+                $text[$i] = self::CHARS[$pos];
+            }
+        }
 
         return $text;
     }

@@ -16,7 +16,7 @@ class WordCrawler implements \Iterator
 
     private int $offset = 0;
     private int $len = 0;
-    private ?Generator $generator = null;
+    private Generator $generator;
 
     /**
      * @param string $text
@@ -67,7 +67,7 @@ class WordCrawler implements \Iterator
      */
     public function rewind()
     {
-        $this->offset=0;
+        $this->offset = 0;
         $this->generator->rewind();
     }
 
