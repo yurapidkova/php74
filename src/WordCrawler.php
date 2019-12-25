@@ -82,14 +82,9 @@ class WordCrawler implements \Iterator
             return null;
         }
 
-        while ($this->offset < $this->len) {
-            if (false !== ($position = strpos($text, self::DELIMITER, $this->offset + 1))) {
-                yield substr($text, $this->offset, $position - $this->offset);
-                $this->offset = $position;
-            } else {
-                yield substr($text, $this->offset);
-                return;
-            }
+        while (false !== ($position = strpos($text, self::DELIMITER, $this->offset + 1))) {
+            yield substr($text, $this->offset, $position - $this->offset);
+            $this->offset = $position;
         }
 
         yield substr($text, $this->offset);
